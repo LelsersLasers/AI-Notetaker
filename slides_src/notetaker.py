@@ -62,7 +62,7 @@ def describe_image(image_path):
                     "content": [
                         {
                             "type": "text",
-                            "text": "Describe accurately what is in this image. Use technical terms and say what it represents. Be precise, don't talk about the context just describe what is in the image. If this image does not pertain to a computer science course (or contains a schedule, or just instructor's name, return \"Nothing useful\""
+                            "text": "Describe accurately what is in this image. Use technical terms and say what it represents. Be precise, don't talk about the context just describe what is in the image. If this image does not pertain to a physics course (or contains a schedule, or just instructor's name, return \"Nothing useful\""
 
                         },
                         {
@@ -163,54 +163,50 @@ def process_and_upload_pdf(pdf_path, output_folder):
     upload_processed_text(processed_text_path)
 
 
-def main():
-    folder_path = "/Users/shay/PycharmProjects/NoteTaker/slideshows"
-    output_folder = "/Users/shay/PycharmProjects/NoteTaker/processed_texts"
-    os.makedirs(output_folder, exist_ok=True)
+class notetaker:
+    def main(self, folder_path):
+        output_folder = "/Users/shay/PycharmProjects/NoteTaker/processed_texts"
+        os.makedirs(output_folder, exist_ok=True)
 
-    # Collect all PDF files
-    pdf_files = [f for f in os.listdir(folder_path) if f.endswith(".pdf")]
-    pdf_paths = [os.path.join(folder_path, f) for f in pdf_files]
+        # Collect all PDF files
+        pdf_files = [f for f in os.listdir(folder_path) if f.endswith(".pdf")]
+        pdf_paths = [os.path.join(folder_path, f) for f in pdf_files]
 
-    # Process PDFs in parallel
-    with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
-        futures = []
-        for pdf_path in pdf_paths:
-            print(f"Processing {os.path.basename(pdf_path)}")
-            future = executor.submit(process_and_upload_pdf, pdf_path, output_folder)
-            futures.append(future)
+        # Process PDFs in parallel
+        with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
+            futures = []
+            for pdf_path in pdf_paths:
+                print(f"Processing {os.path.basename(pdf_path)}")
+                future = executor.submit(process_and_upload_pdf, pdf_path, output_folder)
+                futures.append(future)
 
-        # Wait for all PDFs to be processed
-        for future in concurrent.futures.as_completed(futures):
-            try:
-                future.result()
-            except Exception as e:
-                print(f"Exception occurred: {e}")
-
-    vector_store_files = client.beta.vector_stores.files.list(
-        vector_store_id=vector_store.id
-    )
-
-    data = {}
-    with open('notes.json', 'w', encoding='utf-8') as w:
-        # Summarize the files in parallel
-        with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
-            summary_futures = []
-            for index, file in enumerate(vector_store_files.data):
-                print(f"Summarizing: {file.filename}")
-                future = executor.submit(gpt_summarize, file.filename, file)
-                summary_futures.append((file.filename, future))
-
-            for file_name, future in summary_futures:
+            # Wait for all PDFs to be processed
+            for future in concurrent.futures.as_completed(futures):
                 try:
-                    res = future.result()
-                    print(res)
-                    data[file_name] = res
+                    future.result()
                 except Exception as e:
-                    print(f"Exception occurred during summarization of {file_name}: {e}")
+                    print(f"Exception occurred: {e}")
 
-        json.dump(data, w, indent=4, ensure_ascii=False)
+        vector_store_files = client.beta.vector_stores.files.list(
+            vector_store_id=vector_store.id
+        )
 
+        data = {}
+        with open('notes.json', 'w', encoding='utf-8') as w:
+            # Summarize the files in parallel
+            with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
+                summary_futures = []
+                for index, file in enumerate(vector_store_files.data):
+                    print(f"Summarizing: {file.id}")
+                    future = executor.submit(gpt_summarize, file.id, file)
+                    summary_futures.append((file.id, future))
 
-if __name__ == "__main__":
-    main()
+                for file_name, future in summary_futures:
+                    try:
+                        res = future.result()
+                        print(res)
+                        data[file_name] = res
+                    except Exception as e:
+                        print(f"Exception occurred during summarization of {file_name}: {e}")
+
+            json.dump(data, w, indent=4, ensure_ascii=False)

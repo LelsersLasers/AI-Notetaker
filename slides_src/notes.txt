@@ -1,0 +1,201 @@
+Electric Field~~~A force field around a charged object that represents the force exerted on other charges.
+
+Charge Density (λ)~~~The amount of electric charge per unit length, surface area, or volume.
+
+Point Charge~~~A charged particle with negligible size that is treated as if all its charge is concentrated at a single point.
+
+Line Charge~~~A model of charge distribution along a line where the electric field diminishes with distance \(1/r\).
+
+Plane Charge~~~A model of a uniformly charged flat surface where the electric field is constant.
+
+Ring Charge~~~Uniform distribution of charge around a circular path; focused on the electric field along the axis.
+
+Electric Field of a Ring~~~The electric field along the axis of a ring is primarily in the z-direction due to symmetry.
+
+Infinite Plane~~~A uniformly charged flat plane extending infinitely resulting in a constant electric field perpendicular to the plane.
+
+Superposition~~~The principle that the total electric field caused by multiple charges is the vector sum of each field.
+Gauss' Law~~~Relates the electric flux through a closed surface to the charge enclosed by that surface.
+Uniformly Charged Shell~~~A shell with total charge +Q where the electric field outside is \(E = \frac{Q}{4\pi\epsilon_0 r^2}\) and inside is zero (\(r < R\)).
+Gauss' Law for Magnetism~~~States that the total magnetic flux through a closed surface is zero, indicating no magnetic monopoles.
+Ampere's Law~~~Relates the magnetic field in a closed loop to the electric current passing through the loop: \(\oint \mathbf{B} \cdot d\mathbf{l} = \mu_0 I_{\text{enclosed}}\).
+Magnetic Field (Long Wire)~~~Magnetic field around a long wire is \(\mathbf{B} = \frac{\mu_0 I}{2\pi r}\) and decreases with distance \(r\) from the wire.
+1. Gauss's Law~~~Relates the electric flux through a closed surface to the charge enclosed.
+2. Electric Flux~~~The measure of the electric field passing through a surface, \(\Phi_E = \oint \vec{E} \cdot d\vec{A}\).
+3. Gaussian Surface~~~An imaginary closed surface used to apply Gauss's Law to simplify electric field calculations.
+4. Conductors in Equilibrium~~~Electric field inside a conductor is zero; excess charge resides on the surface.
+5. Transformation Equations~~~Relate electric and magnetic fields between different reference frames using special relativity.
+Van der Waals Forces~~~Induced dipoles cause weak attraction between nearby atoms and molecules.
+Insulator~~~Material where electrons are bound to atoms/molecules and can't move freely.
+Conductor~~~Material allowing charges to move freely; charges flow like a liquid.
+Ionic Solution~~~Solution containing mobile ions (e.g., NaCl in water) that polarize under an electric field.
+Equilibrium~~~State in conductors where E_net = 0 and no charge movement occurs.
+Transient~~~
+The temporary state of a circuit immediately after connection, marked by disturbance in the electric field.
+
+Equilibrium~~~
+A state before connecting a circuit where no current flows and the electric field inside the wire is zero.
+
+Speed of Light~~~
+The rate at which a disturbance propagates in a circuit when it is connected, approximately \(3 \times 10^8 \, \text{m/s}\).
+
+Resistor~~~
+A circuit component that resists electron flow, typically made of a material with lower mobility.
+
+Kirchhoff's Loop Rule~~~
+A principle stating that the sum of the potential differences around any closed circuit loop must be zero, reflecting energy conservation.
+Bar Magnets ~~~ Magnetic dipoles with fields pointing from North to South.
+Magnetic Monopoles ~~~ Hypothetical particles with isolated magnetic charges, not found naturally.
+Electron Current ~~~ Flow of electrons from negative to positive terminal in a circuit.
+Conventional Current ~~~ Flow of fictitious positive charges from positive to negative terminal.
+Biot-Savart Law ~~~ Describes magnetic field produced by a current-carrying wire or moving charge.
+Magnetic Force~~~Force on a charge moving in a magnetic field: \(\mathbf{F_m} = q\mathbf{v} \times \mathbf{B}\). At steady state, \(|E| = |v||B|\).
+
+Emf~~~Electromotive force (emf) is induced when a conductor moves through a magnetic field: \(emf = vBL\).
+
+Magnetic Torque~~~Torque on a current loop: \(\tau = IwhB \sin \theta\). A magnetic dipole aligns with a magnetic field to lower potential energy.
+
+Potential Energy~~~Potential energy of a magnetic dipole in a magnetic field: \(U_m = -\mu \cdot B\).
+
+Lorentz Factor~~~Relativistic factor: \(\gamma = \frac{1}{\sqrt{1 - v^2/c^2}}\), relates to time dilation and length contraction.
+1. **Ohm's Law**~~~Relationship between voltage (\(V\)), current (\(I\)), and resistance (\(R\)): \(|\Delta V| = I R\).
+
+2. **Series Circuit**~~~Configuration with elements end-to-end; same current flows through all components.
+
+3. **Parallel Circuit**~~~Configuration with elements side-by-side; same voltage across all components.
+
+4. **Resistors in Series**~~~Equivalent resistance: \(R_{\text{equivalent}} = R_1 + R_2 + R_3\).
+
+5. **Resistors in Parallel**~~~Equivalent resistance: \(\frac{1}{R_{\text{equivalent}}} = \frac{1}{R_1} + \frac{1}{R_2} + \frac{1}{R_3}\).
+
+6. **Capacitors in Series**~~~Equivalent capacitance: \(\frac{1}{C_{\text{eff}}} = \frac{1}{C_1} + \frac{1}{C_2} + \frac{1}{C_3}\).
+
+7. **Capacitors in Parallel**~~~Equivalent capacitance: \(C_{\text{eff}} = C_1 + C_2 + C_3\).
+
+8. **Power**~~~Power in a circuit: \(P = I \Delta V\); dissipated in a resistor: \(P = I^2 R\).
+
+9. **Ammeter**~~~Measures electric current; connected in series with low internal resistance.
+
+10. **Voltmeter**~~~Measures voltage difference; connected in parallel with high internal resistance.
+
+11. **Ohmmeter**~~~Measures resistance; uses applied voltage and observed current for calculations.
+Superconductor~~~Material with zero electrical resistance below a critical temperature; exhibits Meissner effect.
+Meissner Effect~~~Phenomenon where superconductors expel magnetic fields below critical temperature; explained by BCS theory.
+Inductance~~~Property of a coil resisting changes in current; measured in Henrys (H).
+RL Circuit~~~Combination of resistor and inductor in series; characterized by time constant \( \tau = \frac{L}{R} \).
+LC Circuit~~~Oscillating circuit with inductor and capacitor exchange energy; natural frequency \( \omega_0 = \frac{1}{\sqrt{LC}} \).
+Electric Potential~~~The ability to have potential energy if a test charge enters a system.
+
+eV (electron-Volt)~~~Unit of energy, defined as the energy required to move an elementary charge through a potential difference of one volt.
+
+Potential Energy of Two Particles~~~Energy from interaction of two like charges is positive (repulsion); for opposite charges, it's negative (attraction).
+
+Uniform Electric Field~~~Electric field where potential decreases in the direction of the field; positive charges move toward lower potential.
+
+Superposition Principle~~~The electric potential due to multiple charges is the sum of potentials from each charge.
+Ohm's Law~~~V = IR; a fundamental principle relating voltage, current, and resistance.
+RC Circuit (Charging)~~~Describes the behavior of charge (Q) and current (I) in a circuit with a resistor and a capacitor.
+Time Constant (τ)~~~τ = RC; measures the time it takes for charge/current to change significantly in an RC circuit.
+Dielectric~~~An insulating material that increases capacitance when placed between the plates of a capacitor.
+Current Density~~~J = I/A; the amount of electric current per unit area of cross-section.
+Electric Dipole ~~~ Two equal but opposite point charges separated by a distance, creating a dipole moment \( \vec{p} = q \vec{s} \).
+
+Dipole Moment ~~~ A vector quantity, \( \vec{p} = q \vec{s} \), pointing from the negative charge to the positive charge.
+
+Polarization ~~~ The process by which an atom becomes an induced dipole when placed in an electric field.
+
+Conservation of Charge ~~~ The principle that the net charge of a closed system remains constant, although charges can be transferred.
+
+Triboelectric Effect ~~~ A phenomenon where charge is transferred through friction, causing materials to become electrically charged.
+Capacitor~~~A device used to store energy, store data, or stabilize DC voltage in a circuit.
+
+Charging~~~Process in which a capacitor accumulates charge and current flows into it, but not through it.
+
+Capacitance~~~The ability of a capacitor to store charge, determined by the charge, voltage, and geometry of the capacitor.
+
+Parallel Capacitors~~~Configuration where capacitors add capacitivities directly and have the same potential across them.
+
+Dielectric~~~An insulating material placed between capacitor plates to increase capacitance by reducing the effective electric field.
+Maxwell Equations~~~Fundamental equations describing electromagnetism in terms of electric and magnetic fields.
+Wave Solutions~~~Electromagnetic waves in a vacuum satisfy wave equations due to Maxwell's equations.
+Electromagnetic Waves~~~Light is an electromagnetic wave, propagating at the speed of light with perpendicular E and B fields.
+Energy Density~~~Energy in electromagnetic waves is stored in E and B fields, given by u = ε₀E²/2.
+Poynting Vector~~~Represents energy flux and intensity of EM radiation, given by S = E × B/μ₀.
+1. Ferromagnetic ~~~ Materials that have magnetic domains formed by aligned atomic dipole moments, often requiring an external magnetic field.
+
+2. Paramagnetic ~~~ Materials attracted by an external magnetic field due to incomplete atomic orbitals, e.g., iron, cobalt, nickel.
+
+3. Diamagnetic ~~~ Materials repelled by an external magnetic field, e.g., water, wood, organic compounds, due to induced opposing dipole moments.
+
+4. Magnetic Domains ~~~ Regions within ferromagnetic materials where atomic dipole moments are aligned, contributing to the material's magnetic properties.
+Faraday's Law~~~A principle stating that a change in magnetic field through a loop induces an electromotive force (emf) proportional to the negative rate of change of magnetic flux.
+Lenz's Law~~~The direction of an induced current opposes the change in magnetic flux that induces it, ensuring conservation of energy.
+Motional emf~~~Electromotive force induced in a loop of wire due to its motion within a magnetic field, with emf proportional to the product of magnetic field strength, velocity, and length.
+Magnetic Monopoles~~~Hypothetical particles with a single magnetic pole; do not exist according to Gauss's Law for magnetism.
+Non-Coulomb Electric Field~~~Electric field generated by a changing magnetic field, described by Faraday's Law, not originating from stationary charges.
+Electric Potential~~Potential energy per unit charge at a point in a conductor.
+Magnetic Field~~Vector field generated by moving charges or magnetic materials.
+Biot-Savart Law~~Describes magnetic field produced by a small segment of current.
+Right-Hand Rule~~Determines the direction of the resultant vector in a cross product.
+Conventional Current~~Flow of positive charges, opposite to electron current.
+MagneticForce~~~Force on a moving charge in a magnetic field, given by \( F = qv \times B \).
+RightHandRule~~~Determines direction of magnetic force: thumb points in direction of velocity, fingers in direction of magnetic field, and force comes out of palm.
+MagneticWork~~~Magnetic force doesn't do work; it is perpendicular to velocity and changes direction, not speed.
+CircularMotion~~~In a magnetic field, a charged particle moves in a circle if velocity is perpendicular to the field.
+HallEffect~~~Phenomenon where a magnetic field applied to a current-carrying conductor results in voltage across the conductor.
+Hall Effect~~~A phenomenon used to determine the type of charge carriers (electrons or holes) in a material, caused by magnetic force acting on moving charges.
+Holes~~~In semiconductors, these represent missing electrons in the lattice, behaving as positive charge carriers.
+Hall Voltage~~~The potential difference created across a conductor due to the Hall effect, balancing magnetic and electric forces on charge carriers.
+Magnetic Torque~~~The rotational effect produced on a current loop in a magnetic field, calculated by \( \tau = IBA \sin \theta \).
+Rail Gun~~~A device that uses electromagnetic forces generated by current and magnetic fields to accelerate a projectile along two conductive rails.
+Electric Potential~~~Voltage relative to infinite separation
+Potential Difference~~~Change in electric potential energy per unit charge
+Uniform Electric Field~~~E-field with consistent strength and direction
+Path Independence~~~Potential difference independent of path
+Point Charge Potential~~~Potential created by a single charge
+Potential~~~Electric potential is a scalar quantity representing the amount of electric potential energy per unit charge at a point in space due to electric fields.
+
+Charge Distribution~~~Potential due to a charge distribution refers to the total electric potential resulting from all charges in a system, calculated by summing or integrating contributions from each charge.
+
+Uniformly Charged Ring~~~The potential of a uniformly charged ring is calculated by integrating the contributions of electric field from each differential charge along the ring.
+
+Conductors~~~Inside a conductor in electrostatic equilibrium, the electric field is zero, and the electric potential is constant throughout.
+
+Energy Density~~~Energy density of an electric field is the amount of energy stored in a region with an electric field, expressed as \(\frac{1}{2} \epsilon_0 E^2\).
+1. Biot-Savart~~Approximation of the magnetic field due to a steady current, neglects retardation and relativistic effects.
+
+2. Cylindrical Coordinates~~A coordinate system used to describe the magnetic field around a straight wire, where B points in the θ direction.
+
+3. Right-Hand Rule~~A rule to determine the direction of the magnetic field around a current-carrying wire: thumb points in current direction, fingers curl in B direction.
+
+4. Magnetic Moment~~A vector quantity associated with the magnetic properties of an object, for a loop: μ = IπR².
+
+5. Solenoid~~A long coil of wire with a nearly uniform magnetic field inside, given by B = μ₀nI.
+Ion Propulsion~~~A propulsion system using ionized particles to achieve highly efficient, low-thrust acceleration, as used by Deep Space 1.
+
+Charge Density~~~The amount of electric charge per unit volume, surface area, or length, such as linear charge density (λ) used for rods.
+
+Electric Field~~~A region around a charged particle or object within which a force would be exerted on other charges.
+
+Superposition Principle~~~The principle that the net electric field is the vector sum of electric fields from individual point charges.
+
+Charged Rod~~~An object that, when uniformly charged, produces an electric field that varies based on its geometry and charge distribution.
+1. Capacitor~~~Two metal disks with equal and opposite charges, placed close together, resulting in nearly uniform electric field.
+2. Spherical Shell~~~A hollow sphere with a uniform charge distribution on its surface; electric field inside is zero.
+3. Superposition~~~Principle that the total electric field is the vector sum of individual fields from multiple charges.
+4. Symmetry~~~In charge distributions, implies identical properties in all directions, influencing the direction of electric fields.
+5. Permittivity~~~A constant (\(\epsilon_0\)) in electrostatics representing the ability of a material to permit electric field lines.
+**LC Circuit** ~~~ An oscillating circuit where energy alternates between an inductor and a capacitor, analogous to a harmonic oscillator.
+
+**Energy Transfer** ~~~ Energy is exchanged between the electric field in the capacitor and the magnetic field in the inductor in an LC circuit.
+
+**Maxwell's Equations** ~~~ Fundamental equations of electromagnetism detailing electric and magnetic field behavior through Gauss's, Faraday's, and Ampere-Maxwell's laws.
+
+**Wave Equation** ~~~ Mathematical description of electric and magnetic fields as waves, derived from Maxwell's equations, demonstrating how they propagate through space.
+
+**Poynting Vector** ~~~ Represents the direction and rate of energy flow in electromagnetic waves, calculated as the cross-product of electric and magnetic fields.
+Electric_charge~~~Intrinsic characteristic of particles; measured in coulombs (C); includes positive and negative types.
+Coulomb's_law~~~Force between two point charges is directly proportional to their charges and inversely proportional to distance squared.
+Elementary_charge~~~Smallest unit of charge; e = 1.602 x 10^-19 C; charge of electron (-e), proton (+e).
+Electric_field~~~Force per unit charge; vector field surrounding charged particles; exists throughout space.
+SI_units~~~Force: Newton (N); Electric charge: Coulomb (C); Key constant: Vacuum permittivity ε₀ = 8.85x10^-12 C²/N·m².

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Video Flashcard Creator</title>
+  <link rel="stylesheet" href="style.css" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap"
+    rel="stylesheet"
+  />
+</head>
+<body>
+  <header class="subpage-header">
+    <h1>Video Flashcard Creator</h1>
+    <p class="subtitle">Turn videos into ready-to-study flashcards.</p>
+  </header>
+
+  <main class="subpage-main">
+    <div class="form-container">
+      <p class="info-text">
+        Upload your video content, and we’ll automatically create flashcards so you can quiz yourself anytime.
+      </p>
+
+      <form id="videoFlashcardForm" class="upload-form">
+        <label for="videoFileFlashcards" class="file-label">Pick a video file:</label>
+        <input
+          type="file"
+          id="videoFileFlashcards"
+          name="videoFileFlashcards"
+          accept="video/*"
+          required
+        />
+        <button type="submit" class="primary-btn">Generate Flashcards</button>
+      </form>
+
+      <div id="videoFlashcardsResult" class="results-box"></div>
+    </div>
+
+    <button class="secondary-btn" onclick="window.location.href='index.html'">
+      Back to Home
+    </button>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2024 Purdue AI Tools</p>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    const videoFlashcardForm = document.getElementById('videoFlashcardForm');
+    const videoFlashcardsResult = document.getElementById('videoFlashcardsResult');
+
+    videoFlashcardForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const fileInput = document.getElementById('videoFileFlashcards');
+      if (!fileInput.files.length) {
+        videoFlashcardsResult.innerText = 'No video selected.';
+        return;
+      }
+
+      const file = fileInput.files[0];
+
+      // Optional: Validate file size or type on the client-side
+      const maxSize = 500 * 1024 * 1024; // 500 MB
+      if (file.size > maxSize) {
+        videoFlashcardsResult.innerText = 'File is too large. Maximum size is 500MB.';
+        return;
+      }
+
+      videoFlashcardsResult.innerText = 'Generating flashcards... Please wait.';
+
+      // Prepare FormData
+      const formData = new FormData();
+      formData.append('videoFile', file);
+
+      try {
+        // Make the API call
+        const response = await fetch('http://192.168.86.28:5000/video_flashcards', { // Replace with your actual endpoint
+          method: 'POST',
+          body: formData
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          videoFlashcardsResult.innerText = errorData.message || 'Failed to create flashcards.';
+          return;
+        }
+
+        const data = await response.json();
+
+        if (!data.success) {
+          videoFlashcardsResult.innerText = data.message || 'Failed to create flashcards.';
+          return;
+        }
+
+        const flashcards = data.flashcards;
+
+        if (!flashcards || !Array.isArray(flashcards)) {
+          videoFlashcardsResult.innerText = 'No flashcards received from the server.';
+          return;
+        }
+
+        // Display the flashcards
+        let flashcardHTML = '<h3>Generated Flashcards:</h3>';
+        flashcards.forEach((fc, idx) => {
+          flashcardHTML += `
+            <div class="flashcard">
+              <strong>Q${idx + 1}:</strong> ${fc.question}<br />
+              <em>A${idx + 1}:</em> ${fc.answer}
+            </div>
+          `;
+        });
+        videoFlashcardsResult.innerHTML = flashcardHTML;
+
+        // Optional: Provide a button to download flashcards as a .txt file
+        const downloadBtn = document.createElement('button');
+        downloadBtn.innerText = 'Download Flashcards as .txt';
+        downloadBtn.className = 'primary-btn';
+        downloadBtn.style.marginTop = '20px';
+        downloadBtn.onclick = () => {
+          const flashcardText = flashcards.map((fc, idx) => `Q${idx + 1}: ${fc.question}\nA${idx + 1}: ${fc.answer}\n`).join('\n');
+          const blob = new Blob([flashcardText], { type: 'text/plain' });
+          const blobUrl = URL.createObjectURL(blob);
+
+          const hiddenLink = document.createElement('a');
+          hiddenLink.href = blobUrl;
+          hiddenLink.download = 'flashcards.txt';
+          document.body.appendChild(hiddenLink);
+          hiddenLink.click();
+          document.body.removeChild(hiddenLink);
+          URL.revokeObjectURL(blobUrl);
+        };
+        videoFlashcardsResult.appendChild(downloadBtn);
+
+      } catch (error) {
+        console.error(error);
+        videoFlashcardsResult.innerText = 'Error creating flashcards.';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Video Notetaker</title>
+  <link rel="stylesheet" href="style.css" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap"
+    rel="stylesheet"
+  />
+</head>
+<body>
+  <header class="subpage-header">
+    <h1>Video Notetaker</h1>
+    <p class="subtitle">Transcribe your videos and get answers in seconds.</p>
+  </header>
+
+  <main class="subpage-main">
+    <div class="form-container">
+      <p class="info-text">
+        Upload a video lecture or tutorial, and we'll automatically generate a transcript. You can then ask questions and get timestamps for quick reference!
+      </p>
+
+      <form id="videoNotetakerForm" class="upload-form">
+        <label for="videoFile" class="file-label">Select a video file:</label>
+        <input type="file" id="videoFile" name="videoFile" accept="video/*" required />
+        <button type="submit" class="primary-btn">Transcribe</button>
+      </form>
+
+      <div id="videoTranscription" class="results-box"></div>
+
+      <div id="qaSection" class="qa-container" style="display: none;">
+        <hr />
+        <label for="userQuestion" class="qa-label">Ask a question:</label><br />
+        <input type="text" id="userQuestion" name="userQuestion" class="qa-input" placeholder="Type your question here..." />
+        <button id="askQuestionBtn" class="primary-btn">Ask</button>
+
+        <div id="answerBox" class="results-box"></div>
+      </div>
+    </div>
+
+    <button class="secondary-btn" onclick="window.location.href='index.html'">
+      Back to Home
+    </button>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2024 Purdue AI Tools</p>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    // Get references to DOM elements
+    const videoNotetakerForm = document.getElementById('videoNotetakerForm');
+    const videoTranscription = document.getElementById('videoTranscription');
+    const qaSection = document.getElementById('qaSection');
+    const userQuestion = document.getElementById('userQuestion');
+    const askQuestionBtn = document.getElementById('askQuestionBtn');
+    const answerBox = document.getElementById('answerBox');
+
+    // Handle video transcription
+    videoNotetakerForm.addEventListener('submit', async (event) => {
+      event.preventDefault(); // Prevent default form submission
+
+      const fileInput = document.getElementById('videoFile');
+      if (!fileInput.files.length) {
+        videoTranscription.innerText = 'No video selected.';
+        return;
+      }
+
+      const file = fileInput.files[0];
+
+      // Optional: Client-side validation (e.g., file size)
+      const maxSize = 500 * 1024 * 1024; // 500 MB
+      if (file.size > maxSize) {
+        videoTranscription.innerText = 'File is too large. Maximum size is 500MB.';
+        return;
+      }
+
+      videoTranscription.innerText = 'Transcribing... Please wait.';
+      qaSection.style.display = 'none'; // Hide QA section until transcription is complete
+      answerBox.innerText = ''; // Clear any previous answers
+
+      // Prepare FormData
+      const formData = new FormData();
+      formData.append('videoFile', file);
+
+      try {
+        // Make the API call to the transcription endpoint
+        const response = await fetch('http://127.0.0.1:5000/video_notes', { // Replace with your actual endpoint
+          method: 'POST',
+          body: formData
+        });
+
+        if (!response.ok) {
+          // Handle HTTP errors
+          const errorData = await response.json();
+          videoTranscription.innerText = errorData.message || 'Failed to transcribe video.';
+          return;
+        }
+
+        const data = await response.json();
+
+        if (!data.success) {
+          // Handle application-level errors
+          videoTranscription.innerText = data.message || 'Failed to transcribe video.';
+          return;
+        }
+
+        const transcription = data.notes;
+        if (!transcription) {
+          videoTranscription.innerText = 'No transcription received from the server.';
+          return;
+        }
+
+        // Display the transcription
+        videoTranscription.innerText = transcription;
+
+        // Show the Q&A section
+        qaSection.style.display = 'block';
+      } catch (error) {
+        console.error('Error during transcription:', error);
+        videoTranscription.innerText = 'Error during transcription.';
+      }
+    });
+
+    // Handle question asking
+    askQuestionBtn.addEventListener('click', async () => {
+      const question = userQuestion.value.trim();
+      if (!question) {
+        answerBox.innerText = 'Please enter a question.';
+        return;
+      }
+      answerBox.innerText = 'Looking for answers...';
+
+      // Prepare the payload
+      const payload = {
+        question: question,
+        // Optionally, you can include the transcription or a context ID if needed
+        // transcription: videoTranscription.innerText
+      };
+
+      try {
+        // Make the API call to the Q&A endpoint
+        const response = await fetch('http://127.0.0.1:5000/video_ask', { // Replace with your actual endpoint
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+          // Handle HTTP errors
+          const errorData = await response.json();
+          answerBox.innerText = errorData.message || 'Failed to get an answer.';
+          return;
+        }
+
+        const data = await response.json();
+
+        if (!data.success) {
+          // Handle application-level errors
+          answerBox.innerText = data.message || 'Failed to get an answer.';
+          return;
+        }
+
+        const answer = data.answer;
+        if (!answer) {
+          answerBox.innerText = 'No answer received from the server.';
+          return;
+        }
+
+        // Display the answer
+        answerBox.innerText = answer;
+      } catch (error) {
+        console.error('Error during Q&A:', error);
+        answerBox.innerText = 'Error getting an answer.';
+      }
+    });
+  </script>
+</body>
+</html>

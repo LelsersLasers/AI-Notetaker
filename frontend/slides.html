@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Slides to Flashcards</title>
+  <link rel="stylesheet" href="style.css" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap"
+    rel="stylesheet"
+  />
+</head>
+<body>
+  <header class="subpage-header">
+    <h1>Slides to Flashcards</h1>
+    <p class="subtitle">Quickly turn your lecture slides into flashcards.</p>
+  </header>
+
+  <main class="subpage-main">
+    <div class="form-container">
+      <p class="info-text">
+        Select a folder containing your PDF slides. Our AI will convert them into flashcards so you can review key concepts more effectively!
+      </p>
+
+      <form id="slidesForm" class="upload-form">
+        <label for="slidesFolder" class="file-label">Pick your slides folder:</label>
+        <!--
+          Notice the `webkitdirectory` and `directory` attributes,
+          which allow folder selection (Chrome/Edge).
+          This might not be supported in all browsers.
+        -->
+        <input
+          type="file"
+          id="slidesFolder"
+          name="slidesFolder"
+          multiple
+          webkitdirectory
+          directory
+          accept=".pdf"
+        />
+        <button type="submit" class="primary-btn">Convert</button>
+      </form>
+
+      <div id="slidesResult" class="results-box"></div>
+    </div>
+
+    <button class="secondary-btn" onclick="window.location.href='index.html'">
+      Back to Home
+    </button>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2024 Purdue AI Tools</p>
+  </footer>
+
+  <script>
+    const slidesForm = document.getElementById('slidesForm');
+    const slidesResult = document.getElementById('slidesResult');
+
+    slidesForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      // 1. Gather the selected files from the folder input.
+      const files = document.getElementById('slidesFolder').files;
+      if (!files.length) {
+        slidesResult.innerText = 'No files selected.';
+        return;
+      }
+
+      // 2. Build a FormData object to send to the API
+      const formData = new FormData();
+      for (let file of files) {
+        // The key 'slidesFolder[]' could be anything,
+        // but a bracketed name is common for multiple-file inputs.
+        formData.append('slidesFolder[]', file);
+      }
+
+      slidesResult.innerText = 'Converting slides to flashcards...';
+
+      try {
+        // 3. Send a POST request to your API endpoint.
+        //    Example endpoint: https://mathgen.com/slides
+        const response = await fetch('http://192.168.86.28:5000/slides', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (!response.ok) {
+          slidesResult.innerText = 'Failed to process slides. (HTTP error)';
+          return;
+        }
+
+        // 4. Get JSON response, which we assume has { success, flashcards }
+        //    or some other property containing the flashcards as a string.
+        const data = await response.json();
+
+        if (!data.success) {
+          slidesResult.innerText = data.message || 'Failed to process slides.';
+          return;
+        }
+
+        // Suppose the API returns a property like "flashcards"
+        // that contains the flashcard text data (string).
+        // Example: data.flashcards = "Question 1: ...\nAnswer 1: ...\n"
+        const flashcardText = data.flashcards;
+        if (!flashcardText) {
+          slidesResult.innerText = 'No flashcard text found in the response.';
+          return;
+        }
+
+        // 5. Create a .txt file from the string and automatically download it.
+        const blob = new Blob([flashcardText], { type: 'text/plain' });
+        const blobUrl = URL.createObjectURL(blob);
+
+        // Create a hidden <a> element to download the file
+        const hiddenLink = document.createElement('a');
+        hiddenLink.href = blobUrl;
+        hiddenLink.download = 'flashcards.txt'; // name of the downloaded file
+        document.body.appendChild(hiddenLink);
+        hiddenLink.click();
+        document.body.removeChild(hiddenLink);
+        URL.revokeObjectURL(blobUrl); // release memory
+
+        slidesResult.innerText = 'Flashcards downloaded successfully!';
+      } catch (error) {
+        console.error(error);
+        slidesResult.innerText = 'Error processing slides.';
+      }
+    });
+  </script>
+</body>
+</html>
