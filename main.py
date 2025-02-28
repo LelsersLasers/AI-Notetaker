@@ -24,7 +24,7 @@ FLASHCARDS_FILE = "flashcards.txt"
 
 TEMP_DIR = "temp"
 TEMP_IMAGES = "images"
-TEMP_DATA = "data.txt"
+TEMP_DATA = "data_{i}.txt"
 
 THROWAWAY = "Prof. Jeff Turkstra"
 # ---------------------------------------------------------------------------- #
@@ -79,36 +79,39 @@ def pdfs_to_images(pdfs_folder: str) -> None:
 	if not os.path.exists(images_path):
 		os.mkdir(images_path)
 
-	i = 0
 	with alive_progress.alive_bar(len(pdfs), title="PDF -> Images") as bar:
-		for pdf in pdfs:
+		i_digits = len(str(len(pdfs) - 1))
+		for i, pdf in enumerate(pdfs):
 			pdf_path = os.path.join(pdfs_folder, pdf)
 			images = pdf2image.convert_from_path(pdf_path)
 
-			for image in images:
-				image_path = os.path.join(images_path, f"{i}.jpg")
+			i_section = str(i).zfill(j_digits)
+
+			j_digits = len(str(len(images) - 1))
+			for j, image in enumerate(images):
+				j_section = str(j).zfill(j_digits)
+				image_path = os.path.join(images_path, f"{i_section}_{j_section}.jpg")
 				image.save(str(image_path))
-				i += 1
 			
 			bar()
 
-def alphabetize_images(images_folder: str) -> None:
-	# Zero pad image names (sortable)
-	print("Alphabetizing images...")
+# def alphabetize_images(images_folder: str) -> None:
+# 	# Zero pad image names (sortable)
+# 	print("Alphabetizing images...")
 
-	images = os.listdir(images_folder)
-	image_count = len(images)
-	digits = len(str(image_count - 1))
+# 	images = os.listdir(images_folder)
+# 	image_count = len(images)
+# 	digits = len(str(image_count - 1))
 
-	with alive_progress.alive_bar(image_count, title="Image name fixes") as bar:
-		for image in images:
-			# Uses the fact that files are named {i}.jpg
-			i = int(image.split(".")[0])
+# 	with alive_progress.alive_bar(image_count, title="Image name fixes") as bar:
+# 		for image in images:
+# 			# Uses the fact that files are named {i}.jpg
+# 			i = int(image.split(".")[0])
 
-			image_path = os.path.join(images_folder, image)
-			new_image_path = os.path.join(images_folder, f"{str(i).zfill(digits)}.jpg")
-			os.rename(image_path, new_image_path)
-			bar()
+# 			image_path = os.path.join(images_folder, image)
+# 			new_image_path = os.path.join(images_folder, f"{str(i).zfill(digits)}.jpg")
+# 			os.rename(image_path, new_image_path)
+# 			bar()
 
 def images_to_text(images_folder: str) -> None:
 	# Convert images to text
@@ -118,18 +121,24 @@ def images_to_text(images_folder: str) -> None:
 
 	images = sorted(os.listdir(images_folder))
 
-	data_path = os.path.join(TEMP_DIR, TEMP_DATA)
+	# data_path = os.path.join(TEMP_DIR, TEMP_DATA)
 
-	with open(data_path, "w") as f:
-		with alive_progress.alive_bar(len(images), title="Images -> text") as bar:
-			for i, image in enumerate(images):
+	# with open(data_path, "w") as f:
+	with alive_progress.alive_bar(len(images), title="Images -> text") as bar:
+		for i, image in enumerate(images):
+			file_name = TEMP_DATA.format(i=i)
+			file_path = os.path.join(TEMP_DIR, file_name)
+			with open(file_path, "w") as f:
 				image_path = os.path.join(images_folder, image)
 				text = reader.readtext(image_path, detail=0)
 
 				if THROWAWAY in text:
+					bar()
 					continue
 
-				output  = f"Slide {i}:\n"
+				# Names are: {i}_{j}.jpg where j is the slide number
+				slide_number = int(image.split(".")[0].split("_")[1])
+				output  = f"Slide {slide_number}:\n"
 				output += "\n".join(text)
 				output += "\n\n"
 				f.write(output)
@@ -149,7 +158,7 @@ def main() -> None:
 	clear_temp()
 
 	pdfs_to_images(args["input"])
-	alphabetize_images(os.path.join(TEMP_DIR, TEMP_IMAGES))
+	# alphabetize_images(os.path.join(TEMP_DIR, TEMP_IMAGES))
 	images_to_text(os.path.join(TEMP_DIR, TEMP_IMAGES))
 
 	
