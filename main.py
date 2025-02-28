@@ -128,7 +128,7 @@ def images_to_text(images_folder: str) -> None:
 		for i, image in enumerate(images):
 			file_name = TEMP_DATA.format(i=i)
 			file_path = os.path.join(TEMP_DIR, file_name)
-			with open(file_path, "w") as f:
+			with open(file_path, "a") as f:
 				image_path = os.path.join(images_folder, image)
 				text = reader.readtext(image_path, detail=0)
 
