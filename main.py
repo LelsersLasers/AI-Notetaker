@@ -85,7 +85,7 @@ def pdfs_to_images(pdfs_folder: str) -> None:
 			pdf_path = os.path.join(pdfs_folder, pdf)
 			images = pdf2image.convert_from_path(pdf_path)
 
-			i_section = str(i).zfill(j_digits)
+			i_section = str(i).zfill(i_digits)
 
 			j_digits = len(str(len(images) - 1))
 			for j, image in enumerate(images):
