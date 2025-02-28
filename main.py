@@ -126,7 +126,8 @@ def images_to_text(images_folder: str) -> None:
 	# with open(data_path, "w") as f:
 	with alive_progress.alive_bar(len(images), title="Images -> text") as bar:
 		for i, image in enumerate(images):
-			file_name = TEMP_DATA.format(i=i)
+			pdf_number = int(image.split(".")[0].split("_")[0])
+			file_name = TEMP_DATA.format(i=pdf_number)
 			file_path = os.path.join(TEMP_DIR, file_name)
 			with open(file_path, "a") as f:
 				image_path = os.path.join(images_folder, image)
