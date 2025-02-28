@@ -124,12 +124,20 @@ def images_to_text(images_folder: str) -> None:
 	# data_path = os.path.join(TEMP_DIR, TEMP_DATA)
 
 	# with open(data_path, "w") as f:
-	with alive_progress.alive_bar(len(images), title="Images -> text") as bar:
-		for i, image in enumerate(images):
-			pdf_number = int(image.split(".")[0].split("_")[0])
-			file_name = TEMP_DATA.format(i=pdf_number)
-			file_path = os.path.join(TEMP_DIR, file_name)
-			with open(file_path, "a") as f:
+	f = None
+	try:
+		last_pdf_number = -1
+		with alive_progress.alive_bar(len(images), title="Images -> text") as bar:
+			for i, image in enumerate(images):
+				pdf_number = int(image.split(".")[0].split("_")[0])
+				if pdf_number != last_pdf_number:
+					if f:
+						f.close()
+					last_pdf_number = pdf_number
+					file_name = TEMP_DATA.format(i=pdf_number)
+					file_path = os.path.join(TEMP_DIR, file_name)
+					f = open(file_path, "a")
+
 				image_path = os.path.join(images_folder, image)
 				text = reader.readtext(image_path, detail=0)
 
@@ -145,6 +153,9 @@ def images_to_text(images_folder: str) -> None:
 				f.write(output)
 
 				bar()
+	finally:
+		if f:
+			f.close()
 # ---------------------------------------------------------------------------- #
 
 

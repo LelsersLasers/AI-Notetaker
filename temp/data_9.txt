@@ -1,0 +1,180 @@
+Slide 0:
+PURDUE
+U N I V E R $ I T Y
+CS 240: Programming in C
+Lecture 10: Introduction to Pointers
+Prof: Jeff Turkstra
+2025 Dr. Jeffrey A. Turkstra
+
+Slide 1:
+Code Style Update
+#defines should be at the top
+beneath #includes
+We'Il start enforcing this for HW4
+Constants should be defined for
+things that are not immediate and
+obvious
+Goal is to improve code readability
+columns from HW3
+2
+Eg,
+
+Slide 2:
+Accommodated Exams
+Please be sure we have
+a letter from
+DRC regarding any necessary
+accommodations
+Accommodated exams will overlap
+the exam time
+.in
+a different room
+We'Il send you an email with more
+details
+soon
+3
+
+Slide 3:
+Final Exam
+Thursday, May 8 10:30am
+12.30pm
+D
+ELLT 116
+More details later
+
+Slide 4:
+Next Week
+No Lecture Wednesday 2/26
+Exam
+Make-up Day
+I will not be able to hold
+Thursday
+and Friday office hours
+Only Monday
+Email if you need an appointment (likely
+virtual)
+5
+
+Slide 5:
+Midterm
+Exam
+1
+Monday, March
+3 8pm
+1Opm
+Look for seating charts in the next week
+or SO
+there is more than one room!
+
+Slide 6:
+Homework 2
+596
+scores
+total_
+100+:
+(0 )
+100 :
+(334)
+90 :
+(71)
+80 :
+(33)
+70 :
+(36 )
+60 :
+=
+(14)
+50 :
+=
+(7)
+40 :
+=
+(11)
+30 :
+=
+(4)
+20 :
+=
+(11)
+10:
+=
+(7)
+0 :
+(68 )
+Average:
+79 , 90
+
+Slide 7:
+Homework 3
+596
+scores
+total_
+100+:
+(0 )
+100 :
+=
+(452 )
+90 :
+(35 )
+80 :
+(36 )
+70 :
+=
+(12 )
+60 :
+=
+(8 )
+50 :
+=
+(6)
+40 :
+=
+(4)
+30 :
+=
+(2)
+20 :
+=
+(1)
+10:
+=
+(1)
+0 :
+==
+(39)
+Average:
+89 . 90
+8
+
+Slide 8:
+Stored in memory.
+12
+34
+56
+78
+78
+56
+34
+12
+Little endian
+Big endian
+Each box is
+1
+byte.
+We can look at it in binary too:
+Ox12
+0boo01 0010
+0x34
+0b0011 0100
+0x56
+0b0101 0110
+0x78
+=
+0b0111
+1000
+0x12345678
+=
+0b00o10010001101000101011001111000
+0x7 8563412
+0b01111000010101100011010000010010
+

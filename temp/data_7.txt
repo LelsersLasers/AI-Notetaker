@@ -1,0 +1,853 @@
+Slide 0:
+PURDUE
+U N I V E R $ I T Y
+CS 240: Programming in C
+Lecture &: Memory Layout 0f Data
+Padding
+Binary File I/O
+Prof: Jeff Turkstra
+2025 Dr. Jeffrey A. Turkstra
+
+Slide 1:
+Announcements
+For homeworks, plan ahead!
+Poor planning on your part does not
+constitute an emergency on
+our
+part!
+Midterm exam is
+slowly creeping up
+on
+uS
+Monday, March 3
+Remember to write your code out
+hand first, then type it in and
+compile/run it
+Sample exam and questions available
+~1
+week before the exam
+2
+by
+
+Slide 2:
+Homework 2
+Issue with RNG seed in the test
+modules provided to students
+When compiled for grading, this issue
+went away
+Some student code had overflow
+issues that were not triggered until
+grading
+We're going to fix the grading
+environment to match the test
+module students used
+3
+
+Slide 3:
+Lecture Quiz 5
+Iadjusted the location API timeout to
+the detriment of some of you
+This has been reverted
+We will not count Lecture Quiz 5
+
+Slide 4:
+Homework 4
+Fun little trip into imaginary number
+land
+Remember Euler's identity?
++ 1 = 0
+Use hw4
+view
+S
+it's beautifull
+5
+@Tti
+
+Slide 5:
+Reading
+Read Chapter 5
+and/or Chapter 7 in Beej's
+Probably repeatedly
+
+Slide 6:
+Data layout in memory
+Everything that contains
+a value uses memory
+Everything that contains
+a value uses
+memory
+Everything that contains
+a value uses memory
+Memory space looks like a long, continuous
+stream of bytes
+And everything that contains
+a value
+occupies
+one
+or more bytes of memory
+
+Slide 7:
+More variables
+Variables that are defined near each other
+are
+usually near to each other in memory:
+e.g.:
+int
+counter
+=
+0
+float
+size
+=
+0 . 0 ;
+0 |
+counter
+size
+8
+
+Slide 8:
+Structures
+Structure members are
+placed in memory just like
+arrays__they are guaranteed to be packed next to each
+other:
+struct
+my_stuff
+{
+int
+float
+char
+c[8] ;
+my
+var
+=
+{0 ,
+0 ,
+"Ffej"
+} ;
+70
+101 101
+1006
+0
+22
+22
+my_stuff
+1;
+f;
+
+Slide 9:
+How do you know the size
+of variables and types?
+A variable of a certain size may have
+a
+different allocated size
+on different
+machines with different compilers.
+long X would be four bytes on x86
+or
+Sparc but would be eight bytes long on
+Alpha, Sparc64, or x86_
+64.
+We don't want our software to misbehave
+when
+compiled on a different system.
+Fortunately, we don't have to remember
+what the size is_
+10
+E.g:
+
+Slide 10:
+Correct strncpy()
+0 :-)
+int
+main ( )
+{
+II
+char
+another
+str[16]
+123456789012345"
+char
+my_str[40]
+=
+"1234567890123456789"
+"123456789012345678" ;
+strncpy(another_str,
+my
+str,
+sizeof (another
+str) ) ;
+another_str[sizeof (another
+str)
+1]
+=
+10 ' ;
+printf("%s In"
+another_string) ;
+return
+0 ;
+11
+
+Slide 11:
+What is the size of this
+struct?
+struct
+strange
+{
+int
+X;
+four
+bytes
+int
+y ;
+four
+bytes
+int
+four
+bytes
+char
+C;
+one
+byte
+} ;
+int
+main() {
+printf("size
+=
+%d|n" ,
+sizeof(struct
+strange) ) ;
+return
+0 ;
+12
+1 *
+z;
+/*
+
+Slide 12:
+Right:
+The size of the previous structure is 16
+bytes
+On most modern computers, an integer
+must reside on an even
+boundary if it is to
+be efficiently accessed:
+int
+my
+int;
+short
+my
+short;
+int
+%
+4
+=
+short
+% 2
+F=
+13
+E.g::
+Smy
+Smy_
+
+Slide 13:
+What is the size of this
+struct?
+struct
+strange
+{
+int
+X;
+four
+bytes
+int
+y ;
+four
+bytes
+int
+four
+bytes
+char
+C;
+one
+byte
+} ;
+int
+main() {
+printf("size
+=
+%d|n" ,
+sizeof(struct
+strange) ) ;
+return
+0 ;
+14
+1 *
+z;
+/*
+
+Slide 14:
+Padding
+Structures are often padded so that
+data elements occur at the correct
+offset
+ints must be 4-byte aligned, longs
+must be 8-byte aligned, etc
+Some architectures cannot handle
+unaligned accesses
+For others (intel),
+are very slow
+15
+E.g.,
+they
+
+Slide 15:
+If a structure is not
+padded
+If the structure
+was not
+padded, an array
+of these structures would look like this:
+X
+Y
+Z
+Cl
+X
+Y
+Z
+C
+X
+Y
+Z
+C
+address
+address+13
+address+26
+If address is a proper location for an
+integer; then address
++ 13 is
+certainly not
+16
+
+Slide 16:
+When
+a
+structure is
+padded
+When
+an odd-sized array is created, it is
+padded to align all of its fields properly:
+p
+p
+p
+X
+Y
+Z
+a
+Y
+Z
+C
+a
+Y
+Z
+C
+a
+d
+d
+d
+address
+address+16
+address+32
+Now all of its integers are
+on
+a proper
+boundary
+You can't (shouldn't) access the pad space
+Note that padding may be added at several
+places in the structure.
+17
+
+Slide 17:
+How to create inefficient
+structs:
+Here's a structure that uses space
+inefficiently:
+struct
+bad
+{
+char
+cl;
+int
+char
+int
+char
+c3;
+int
+char
+C4 ;
+} ;
+How big would you say it is?
+18
+11;
+c2;
+12;
+13;
+
+Slide 18:
+When
+a
+structure is
+padded
+All values must be properly aligned.
+p
+p
+p
+p
+C
+a
+i1
+a
+12
+a
+13
+a
+1
+2
+3
+4
+d
+d
+d
+d
+And must remain aligned in
+an array
+p
+p
+p
+p
+p
+p
+p
+p
+C
+C
+C
+C
+a
+11
+a
+12
+a
+13
+a
+a
+il
+a
+12
+a
+13
+a
+1
+2
+3
+4
+1
+2
+3
+4
+d
+d
+d
+d
+d
+d
+d
+d
+no
+padding?
+i1 won't be
+properly
+aligned
+19
+
+Slide 19:
+How to create inefficient
+structs:
+Here's a structure that uses space
+inefficiently:
+struct
+bad
+{
+char
+cl;
+int
+char
+int
+char
+c3;
+int
+char
+C4 ;
+} ;
+How big would you say it is?
+20
+11;
+c2;
+12;
+13;
+
+Slide 20:
+How to create inefficient
+structs:
+Here' s & structure that uses space
+inefficiently:
+struct
+bad
+{
+struct
+not
+50
+bad
+{
+char
+cl;
+int
+i1;
+int
+int
+12 ;
+char
+int
+13;
+int
+char
+cl;
+char
+c3;
+char
+c2 ;
+int
+char
+c3;
+char c4;
+char
+C4;
+} ;
+*
+size
+=
+28 * /
+} ;
+I*
+size
+=
+16
+How big would you say it is? We
+can do better:
+21
+11;
+c2;
+12;
+13;
+
+Slide 21:
+Structure alignment:
+Rule of thumb
+When creating a structure, order the fields
+to
+bottom by their relative size
+doubles
+long long
+pointers
+long
+intlfloat
+short
+char
+Doing so will result in padding being added
+to the
+end of the structure
+if at all
+22
+top
+only
+
+Slide 22:
+Purdue Trivia
+In 1935, during a Purdue football game at
+Northwestern University the band donned
+lights on their uniforms while performing
+at halftime.
+With the stadium lights turned
+off for the performance, the band drew
+such awe from radio broadcaster Ted
+Husing, he referred to them
+as
+a
+All-
+American
+marching band,
+hence the
+current title of the band:
+23
+"truly
+
+Slide 23:
+fread(), fwrite()
+Given an open FILE pointer;
+we
+can
+use fread() and fwrite() to read or
+write
+raw
+memory items to or from
+a file
+fwritelvoid
+xptr,
+int
+size ,
+int
+num,
+FILE
+xfp) ;
+fread (void
+xptr,
+int
+size ,
+int
+num,
+FILE *fp) ;
+This allows you to
+dump" a data
+structure
+directly into a binary format
+file
+24
+
+Slide 24:
+Example
+#include
+<stdio.h>
+struct
+XX {
+int
+X;
+int
+y ;
+} ;
+int
+main( )
+{
+struct
+XX
+=
+{
+-1 };
+FILE
+=
+0 ;
+int
+status
+=
+0 ;
+fp
+=
+fopen ("input.file"
+"rb" ) ;
+status
+=
+fread(&try ,
+sizeof(struct
+XX) ,
+1,
+fp) ;
+printf("Read
+values
+(%d,
+%d)
+with
+return
+%dln"
+try.X,
+try.Y,
+status) ;
+fclose( fp) ;
+return
+0 ;
+25
+try
+-1,
+xfp
+
+Slide 25:
+Return values
+Both fread() and fwrite() return the
+number of items that were read or
+written
+On error; they return
+a short item
+count (or zero)
+26
+
+Slide 26:
+Uses of fread()
+Recall the prototype:
+fread (void
+xptr,
+int
+size ,
+int
+num ,
+FILE *fp) ;
+fread (&try ,
+sizeof(struct
+XX) ,
+1,
+fp) ;
+The "void *"
+means we can pass a
+pointer to
+"anything
+What value should this call to fread() return?
+How many bytes are read by this operation?
+How would we read a whole file full of these
+structures?
+Is there any data format checking with this?
+27
+
+Slide 27:
+fread(ing multiple
+structures
+#include
+<stdio.h>
+int main( )
+{
+FILE *fp = 0;
+struct
+XX
+=
+{0, 0 };
+fp
+S
+fopen ("input.file"
+1
+"rb") ;
+if
+(!fp)
+return
+while
+(fread(&try ,
+sizeof(struct
+XX) ,
+1,
+fp)
+==
+1)
+{
+printf("Read
+(%d_
+1
+%d ) In" ,
+try.X,
+try.y) ;
+fclose( fp) ;
+fp
+=
+NULL;
+return
+0 ;
+28
+try
+-1;
+
+Slide 28:
+fwrite() example
+#include
+<stdio.h>
+struct
+XX {
+int
+X;
+int
+y ;
+} ;
+int
+main( )
+{
+struct
+XX try
+=
+{0 ,
+1 };
+FILE
+xfp
+=
+0
+fp
+=
+fopen ("output. file" ,
+"wb" ) ;
+fwrite(Gtry,
+sizeof(struct
+XX) ,
+1,
+fp) ;
+fclose( fp) ;
+fp
+=
+NULL;
+return
+0 ;
+29
+
+Slide 29:
+fwrite()
+curiosities
+Recall the prototype for fwrite():
+fwritelvoid *ptr,
+int
+size,
+int
+num ,
+FILE
+*fp) ;
+fwrite(&try,
+sizeof(struct xX) ,
+2 ,
+fp) ;
+We're getting close to talking about
+pointers.
+'void *" means
+we can pass &
+pointer to
+"anything"
+How many bytes are written by this
+operation?
+What value should this call to fwrite() return?
+
+Slide 30:
+Summary: fread()lfwrite()
+Moves
+a
+memory image
+to or from
+a file
+The file is NOT PORTABLE
+Different systems have different
+formats for integers, floats, etc
+Little endian (intel) vs big endian
+(motorola, sparc)
+No data type checking
+31
+
+Slide 31:
+For next lecture
+Read Chapter 5
+and/or Chapter 7 in Beej's
+Probably repeatedly
+Have you started Homework 4?
+32
+
+Slide 32:
+Boiler Upl
+33
+

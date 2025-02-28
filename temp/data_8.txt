@@ -1,0 +1,691 @@
+Slide 0:
+PURDUE
+U N I V E R $ I T Y
+CS 240: Programming in C
+Lecture 9: Bitfields, Unions, and Enums
+Bitwise Operations
+Prof: Jeff Turkstra
+2025 Dr. Jeffrey A. Turkstra
+
+Slide 1:
+Announcements
+Homework 2 style grades went out this
+morning
+Homework 4 is a great chance to catch up
+if you've fallen behind
+There probably won't be another
+opportunity like it
+2
+
+Slide 2:
+Grades
+Remember to monitor the gradebook and
+address issues within
+one weekl
+3
+
+Slide 3:
+Reading
+Read Chapter 5
+and/or Chapter 7 in Beej's
+Probably repeatedly
+
+Slide 4:
+sizeof()
+The sizeof() operator can tell us the
+size (number of bytes) of any:
+Variable definition
+Type declaration
+int
+array[ 100] ;
+printf("Size
+char
+=
+%d|n"
+sizeof (char) ) ;
+printf("Size
+of Array
+=
+%d|n"
+sizeof(array) ) ;
+5
+0f
+
+Slide 5:
+struct revisited
+E
+bitfields
+You can create fields within structs
+that do not contain
+a
+round number
+of bits_
+struct
+special
+{
+unsigned
+int
+sign:
+unsigned
+int
+exp:
+11;
+unsigned
+int
+frac
+high:
+20 ;
+unsigned
+int
+frac
+mid:
+16 ;
+unsigned
+int
+frac
+Zow:
+16;
+} ;
+How big is it?
+1;
+
+Slide 6:
+Why use bitfields?
+When you really want to store
+a lot of fields
+that contain small values
+When you finally decide that you too need
+to write
+a new operating system and you
+have to access
+special hardware devices
+When you want to do format conversion
+between different types of data
+Previous example was
+a
+structural format
+for an IEEE double precision floating point
+value
+
+Slide 7:
+Rule of thumb for
+bitfields..
+If you really need to use bitfields,
+'Il know it
+You probably won't feel the need to
+use them in this class
+8
+you
+
+Slide 8:
+union
+A union declaration looks just like a
+struct.-
+union
+my
+union
+{
+int
+1;
+float
+char
+my
+var;
+All the internal elements overlap
+my
+var
+f;
+C ;
+
+Slide 9:
+Initialization
+union
+my
+union
+{
+int
+float
+} ;
+union
+my
+union
+my
+var
+=
+{
+5 . 0
+} ;
+Assumes you are initializing the first
+field!
+C99 has designated union initializers:
+union
+my
+union
+my_var
+= { .f
+=
+5. 0 } ;
+10
+1;
+f;
+
+Slide 10:
+Why?
+When you really need to save space
+in your program and you know that
+some datum will be one of two
+disparate types
+Deep operating system hacking
+Peripheral I/O manipulation
+Format conversion
+If you need it, you'Il know
+Don't use it in this class
+11
+
+Slide 11:
+enum
+An
+enum declaration looks sort of like
+a struct declaration_
+'
+enum
+color
+{
+RED
+GREEN
+1
+BLUE
+} ;
+enum
+color
+my
+hue
+=
+GREEN;
+Use this when you want to attach
+a
+label to a value
+12
+
+Slide 12:
+enum
+example
+#include
+<stdio.h>
+enum
+color
+{RED
+1
+GREEN ,
+BLUE} ;
+int main()
+{
+enum
+color
+my
+hue
+=
+GREEN ;
+switch
+(my_hue)
+{
+case
+RED :
+case
+GREEN:
+printf ("Red
+or
+Green
+In") ;
+break;
+case
+BLUE:
+printf("Blue. In") ;
+break;
+return
+0 ;
+13
+
+Slide 13:
+enums
+can also have
+values
+You can assign exact values to the enum
+declaration's members_
+enum
+british
+transport
+{
+LAND=1 ,
+SEA-2 ,
+AIR=3
+SUBMARINE-2
+FLYING
+SAUCER=400
+}
+You can assign a value to an enum
+definition using an integer too
+14
+
+Slide 14:
+Use of that enum
+#include
+<stdio.h>
+int
+main( )
+{
+enum
+british
+transport
+craft
+AIR;
+printf("Value
+0f
+craft
+is
+%d|n",
+craft) ;
+return
+0 ;
+15
+
+Slide 15:
+Purdue Trivia
+The phrase
+one brick higher" comes from the
+destruction of Heavilon Hall in 1894
+S
+four days after
+construction was
+completed
+Contained a groundbreaking locomotive testing plant
+President Smart proclaimed
+We are
+looking this
+morning to the future, not the past.
+I tell you,
+that
+")
+tower shall go up one brick higherl
+Actually nine bricks higher
+Current Heavilon Hall was built in 1959
+Bells are in the Bell Tower (built 1995)
+Clock is in the ME Gatewood Wing Atrium (2011)
+16
+
+Slide 16:
+A_
+note
+on endianness
+The order of bytes in
+a word or multi-
+byte value
+Does not impact bit ordering for
+individual bytes!
+Two ways:
+Big-endian: most significant byte first
+(lowest address)
+Little-endian: least significant byte first
+17
+
+Slide 17:
+Example
+Consider the integer value
+305419896
+In hexadecimal:
+Oxl2 34 56 78
+Each pair of hexadecimal values
+corresponds to 8 bits or 1 byte
+18
+
+Slide 18:
+Stored in memory.
+12
+34
+56
+78
+78
+56
+34
+12
+Little endian
+Big endian
+Each box is
+1
+byte.
+We can look at it in binary too:
+Ox12
+0boo01 0010
+0x34
+0b0011 0100
+0x56
+0b0101 0110
+0x78
+=
+0b0111
+1000
+0x12345678
+=
+0b00o10010001101000101011001111000
+0x7 8563412
+0b01111000010101100011010000010010
+19
+
+Slide 19:
+Bitwise operators
+You regularly use logical operators:
+Il && in compound if statements
+What does this mean?
+if
+(x)
+printf("x
+=
+%dln" , x) ;
+And this?
+if
+(x
+SG y)
+printf("x
+=
+%d|n" ,
+x) ;
+There are also bitwise operators:
+&
+What does this mean?
+if
+(x & y)
+printf("x
+=
+%dIn" ,
+x) ;
+20
+
+Slide 20:
+The difference between logical
+and bitwise operators
+Logical operators check whether the
+quantities are zero
+or non-zero.
+if
+(x
+SX
+y )
+printf("y
+=
+%dln" , y) ;
+really means:
+if
+( (x
+= 0)
+SC
+(y
+!= 0)
+!= 0
+printfl"y
+=
+%d|n" ,
+y) ;
+And the result of && is either 1
+or 0
+Use logical operators to make a
+yes/no decision
+21
+E.g::
+
+Slide 21:
+The difference between logical
+and bitwise operators
+Bitwise operators work on all of the bits.
+char
+X =
+binary
+00
+0101
+char
+y = 6;
+binary
+0
+0110
+char
+z = 0;
+binary
+0
+= X & y;
+result
+00000100
+There are also OR ([), XOR (^)
+and NOT
+(~) operators
+Use bitwise operations when you want to
+work on the bits of a quantity
+22
+E.g::
+5 ;
+1 *
+
+Slide 22:
+Truth tables
+AND
+OR
+XOR
+0
+0
+1
+1
+1
+1
+1
+1
+0
+1
+0
+1
+1
+0
+1
+1
+1
+1
+1
+1
+1
+1
+1
+0
+NOT
+1
+1
+23
+
+Slide 23:
+We also have shift
+operators
+<<
+and
+>>
+You can take
+a bunch of bits and shift it
+one way or another:
+char
+=
+10;
+binary
+00001010
+char
+y = 0;
+y = X
+<<
+3 ;
+X
+result
+0101000
+Note that every shift left is equivalent to a
+multiplication by two.
+y = X
+<<
+means
+y = X * 23
+24
+E.g::
+3;
+
+Slide 24:
+Example:
+cut
+a range of
+bits..
+Suppose we want to write a function that
+accepts a 32-bit integer and pulls a range
+of bits from somewhere in the middle:
+unsigned
+int
+bit
+range(unsigned
+int
+num _
+1
+unsigned
+int
+bits ,
+unsigned
+int
+offset)
+{
+return
+((num
+>>
+offset)
+&
+((1
+<<
+bits)
+1) ) ;
+You'll have to stare at that for a while to
+understand it._-
+25
+
+Slide 25:
+Bit setting/clearing
+Use operators to clear/set bits in
+numbers.
+int
+color
+=
+44;
+I *
+binary
+00101100
+int
+blue
+=
+7;
+binary
+0oC
+00111
+x/
+printf("Color
+with
+all
+blue
+is
+%d|n"
+color
+blue) ;
+00101111
+printf("Color
+with
+no
+blue
+is
+%d|n"
+color
+&
+~blue) ;
+00101000
+new
+color
+I=
+blue
+&
+color;
+printf("new
+color:
+%d|n" ,
+new
+color) ;
+26
+
+Slide 26:
+Bit checking
+How
+can we determine if a
+specified
+bit is set (i.e., set to 1)?
+char
+bits
+=
+44 ;
+I *
+binary
+00101100
+char
+mask
+binary
+00001000
+if
+((bits
+&
+mask)
+F=
+mask)
+{
+printf ("The
+bit
+is
+setIn") ;
+else
+{
+printf ("The
+bit
+is
+clearedIn") ;
+27
+= 8;
+x |
+
+Slide 27:
+For next lecture
+Read Chapter 5
+and/or Chapter 7 in Beej's
+Probably repeatedly
+Understand the operators & and
+28
+
+Slide 28:
+Takehome Quiz 5
+unsigned
+short
+endian2
+conversion(unsigned
+short
+number) ;
+1_
+Write the above C function that converts
+a
+two byte number from Little Endian to Big
+Endian_
+For
+example, if the number 0xl234 is passed to
+the function, it should return 0x3412
+Hint: declare a union of one unsigned short and
+two
+unsigned chars
+Do not use bitwise operations!
+2. (Optional) What is your favorite
+programming language?
+29
+
+Slide 29:
+Boiler Upl
+30
+

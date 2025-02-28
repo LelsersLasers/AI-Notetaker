@@ -1,0 +1,948 @@
+Slide 0:
+PURDUE
+U N I V E R $ I T Y
+CS 240: Programming in C
+Lecture
+7: Arrays
+Memory Layout of Data
+Prof: Jeff Turkstra
+2025 Dr. Jeffrey A. Turkstra
+
+Slide 1:
+Announcements
+Work on Homework 3!
+Done by Sundayl
+Feasting with Faculty tomorrow
+12pm
+Look for the sign on the door (2 private
+dining rooms toward back of the area)
+You can show up to any (alll) of them!
+2
+
+Slide 2:
+Grades
+Homework grades are typically available the
+day after the assignment is due
+No more announcements, your job to check
+Lecture quizzes same
+Takehome quizzes generally take one week to
+grade
+Then released on Gradescope
+"Then in gradebook a week later
+Regrade request deadline is based on
+Gradescope release
+3
+
+Slide 3:
+Homework 3
+What's wrong with this? (Assume
+we
+check fscanf()'s return value)
+char
+buf [ 1024] ;
+fscanf(in_fp,
+"% [^In]"
+buf) ;
+if
+(strlen (buf )
+>
+MAX
+NAME
+LEN)
+{
+fclose(in
+fp) ;
+in_fp
+=
+NULL;
+return
+BAD
+RECORD ;
+
+Slide 4:
+Homework 3
+How about this?
+#define
+MAX
+NAME
+LEN
+(40 )
+char
+buf [MAX
+NAME
+LEN ] ;
+fscanf(in_fp,
+940 [^In]" ,
+buf) ;
+5
+
+Slide 5:
+Homework 3
+Don't forget the NUL terminator!
+#define
+MAX
+NAME
+LEN
+(40)
+char
+buf [MAX
+NAME
+LEN ] ;
+fscanf(in_fp,
+%39[^In]" ,
+buf) ;
+
+Slide 6:
+Quizzes
+Must use the template
+Must be handwritten
+Otherwise
+0
+This has been discussed previously
+
+Slide 7:
+Debug output
+We have fairly strict file size limits on
+output
+If you leave a bunch of printfl)s in
+your code you might hit it
+You've been warned
+D
+Future assignments that's & score of 0
+8
+
+Slide 8:
+Feasting with Faculty
+Tomorrowl 12pm!
+Earhart Private Dining Room
+
+Slide 9:
+What about hw3.h?
+extern
+char
+9
+rental_history[MAX_RENTALS] [3] [MAX
+BUF
+LEN
+1;
+extern
+char
+g
+vehicle
+info [MAX_RENTALS] [3] [MAX_BUF
+LEN] ;
+extern
+float
+g
+rental_stats [MAX RENTALS] [4] ;
+extern
+int
+g_rental
+count;
+extern is also a declaration
+It tells the compiler what the variable looks
+like, but it does not allocate space for it!
+You still must define it somewherel
+10
+
+Slide 10:
+Notes
+Do not use variable length arrays in this
+class
+Some of you are copying code and
+concepts from things outside of course
+material
+fgetc(), sizeof(), malloc(), etc
+You're probably cheating:
+You're also making your life more difficult
+11
+
+Slide 11:
+Reading
+In KSR:
+Read Sections: 4.4, 6.8-6.9, A8.3-48.4
+and skim Chapter 2 (read 2.3)
+In Beej's:
+Read Chapter 6, ignore 6.2
+Read Chapter 14
+Read sections 12.2-12.4
+12
+
+Slide 12:
+Definitions
+VS.
+declarations
+Definition: allocates storage for a
+variable (or function)
+Declaration: announces the
+properties of a variable (or function)
+What's this?
+And this?
+struct
+{
+struct
+point
+{
+int
+zap;
+int
+X;
+float zing;
+int
+y ;
+} ;
+var;
+13
+hey
+
+Slide 13:
+Arrays of structures
+We
+can create arrays of structures just as
+we can create arrays of anything else.
+struct
+person people[4] ;
+Initialization is similar to before:
+struct person people[4]
+=
+{
+3
+"Mai
+Elkady"
+"TA"
+{1,
+2 ,
+3 ,
+4} },
+{
+"Nan Jiang"
+"TA"
+{2 ,
+3 ,
+4 ,
+5} } ,
+{
+"Zach
+Bryant"
+"TA"
+{3,4,5,6}
+} ,
+{
+"Julie
+Stevenson"
+"TA"
+1
+{4,
+5 ,
+6 ,
+7} },
+} ;
+14
+E.g::
+
+Slide 14:
+Array of Structures
+Example (page 1)
+#include
+<stdio.h>
+#include
+<string.h>
+struct
+person
+{
+char
+name[40 ] ;
+char
+title[15];
+int
+codes [4] ;
+} ;
+struct
+person
+crowd [ 100] ;
+1* global !
+x/
+void print_person(struct
+person) ;
+15
+
+Slide 15:
+Array of Structures
+Example (page 2)
+int
+main( )
+{
+int
+index
+= 0;
+strncpy(crowd [ 0] . name
+1
+"Jeff"
+40 ) ;
+strncpy(crowd[0] .title,
+"Speaker"
+15) ;
+crowd [0 ] . codes[0]
+=
+10 ;
+crowd [0 ] . codes [ 1]
+=
+20 ;
+crowd [0 ] . codes [2]
+=
+40 ;
+strncpy(crowd [ 1] . name,
+"Student"
+40 ) ;
+strncpy(crowd[1].title,
+"Listener"
+1
+15) ;
+crowd [ 1] . codes[0]
+=
+1;
+16
+
+Slide 16:
+Array of Structures
+Example (page 3)
+for
+(index
+=
+0 ;
+index
+<
+100 ;
+indext+)
+{
+if
+(crowd [ index] . name[0]
+!=
+'10' ) {
+print
+person (crowd [ index] ) ;
+return
+0 ;
+Assume
+that print
+person
+i5
+defined
+below
+17
+/ *
+
+Slide 17:
+The result:
+$
+Vi
+ex2 . C
+$
+gcc
+Wall
+Werror
+std-c9g
+-g -0
+ex2
+ex2 . €
+$ . /ex2
+Name :
+Jeff
+Title:
+Speaker
+Codes :
+10 ,
+20 _
+0 ,
+9
+Name:
+Student
+Title:
+Listener
+Codes:
+1,
+0
+0 _
+0
+$
+18
+
+Slide 18:
+Notes about previous
+example
+When you define something as a global
+data structure, anything that is not
+initialized is automatically made zero
+Sometimes this is good, sometimes not
+We
+defined the first two elements of
+the
+array
+You can check if the first character of a
+string is NUL
+if
+(string[0]
+==
+'10 ' )
+19
+only
+big
+by:
+
+Slide 19:
+Purdue Trivia
+Purdue is home to Indiana's first and
+only nuclear reactor
+Built in 1962
+Built by Lockheed Corporation
+Three stories beneath the Duncan Annex
+of EE
+Criticality on August 30, 1962
+Dedication September 27
+20
+
+Slide 20:
+21
+ONE
+BRICK
+HIGRER
+
+Slide 21:
+22
+
+Slide 22:
+GAIN
+H €ALIE
+GROUND
+
+0 CALIB
+CHANNEL
+2
+10e
+Ecun
+23
+3rr
+
+Slide 23:
+24
+
+Slide 24:
+Array initialization
+You can partially initialize
+an
+arrayl
+int
+my
+numbers[200]
+=
+{5,
+5 ,
+3 ,
+4 ,
+5 };
+Only the first five elements are explicitly
+initialized. The rest are set to zero
+This is true not
+only for global arrays but
+for arrays allocated inside functions
+25
+E.g::
+
+Slide 25:
+Array auto-sizing
+You can define and initialize an array
+without explicitly saying what its Size is.
+int
+my_array [ ]
+= { 1,
+1,
+2 ,
+2 ,
+3 ,
+3 ,
+7 };
+What would the size of this array be?
+There are
+no zero elements at the end of
+the array since we're letting the compiler
+figure out how large it is
+26
+E.g-
+
+Slide 26:
+Arrays of structures
+Same idea._
+struct point
+{
+int
+int
+y ;
+} ;
+int
+almost_pointless() {
+struct
+point
+dots[] = { {1,
+2} ,
+{3
+4} };
+return
+dots[1].X;
+27
+X;
+
+Slide 27:
+strncpyl)
+What's wrong with this?
+int main()
+{
+char
+another
+str[16]
+123456789012345" ;
+char
+my_str[ ]
+=
+"Hello ,
+World!" ;
+strncpy (another_str,
+my_str,
+strlen (my_str) ) ;
+printf(u%s|n"
+another
+string) ;
+return
+0 ;
+28
+
+Slide 28:
+strncpyl)
+Do not do this.
+int main()
+{
+char
+another
+str[16]
+123456789012345" ;
+char
+my_str[ ]
+=
+"Hello ,
+World!" ;
+strncpy (another_str,
+my_str,
+strlen (my
+str)) ;
+printf(u%s|n"
+another
+string) ;
+return
+0 ;
+strncpy() will not NUL
+terminate the string!
+29
+
+Slide 29:
+strncpy() fixed?
+Don't do this either:
+int
+main( )
+{
+char
+another
+str[16]
+123456789012345" ;
+char
+str[]
+=
+"Hello ,
+World!" ;
+strncpy (another_str,
+my_str,
+strlen (my_str) ) ;
+another
+str[strlen(my
+str) ]
+=
+'10 ' ;
+printf("%s|n"_
+another_string) ;
+return
+0 ;
+30
+my_:
+
+Slide 30:
+strncpy() fixed?
+Don't do this either:
+int
+main( )
+{
+char
+another
+str[16]
+123456789012345" ;
+char
+str[]
+=
+"Hello ,
+World!" ;
+strncpy (another_str,
+my_str,
+strlen (my
+str)) ;
+another
+str[strlen(my
+str) ]
+=
+'10 ' ;
+printf("%s|n"_
+another_string) ;
+return
+0 ;
+Only works because my_str
+happens to be smaller than
+another
+str:
+What happens if
+my_str changes to something
+larger in the future?
+31
+my_:
+
+Slide 31:
+strncpy()
+overflow
+Oops..
+int main()
+{
+char
+another
+str[16]
+123456789012345"
+char
+my_str[40]
+=
+II
+1234567890123456789"
+II
+123456789012345678" ;
+strncpy (another_str,
+my_str,
+strlen (my_str) ) ;
+another_str[strlen (my_
+str) ]
+=
+'I0
+printf ("osIn"
+another
+str
+return
+0 ;
+What's the right thing to do
+here?
+32
+
+Slide 32:
+Data layout in memory
+Everything that contains
+a value uses memory
+Everything that contains
+a value uses
+memory
+Everything that contains
+a value uses memory
+Memory space looks like a long, continuous
+stream of bytes
+And everything that contains
+a value
+occupies
+one
+or more bytes of memory
+33
+
+Slide 33:
+Variables
+When we define a variable, the
+compiler
+creates
+a
+space for it in memory somewhere_
+Whenever we use the name of the variable, it
+translated into that
+somewhere.
+Some types of variables consume several
+bytes of memory. E.g., an
+'int' is usually 4
+bytes long.
+int
+my
+var
+= 0;
+0 |
+my_var
+34
+gets
+
+Slide 34:
+More variables
+Variables that are defined near each other
+are
+usually near to each other in memory:
+e.g.:
+int
+counter
+=
+0
+float
+size
+=
+0 . 0 ;
+0 |
+counter
+size
+35
+
+Slide 35:
+Arrays
+Arrays of items are guaranteed to be
+packed together in memory e.g::
+int
+array [3]
+=
+{0xl1111111,
+0x22222222 ,
+0x33333333
+} ;
+11
+11
+11
+11
+22
+22
+22
+22
+33
+33
+33
+33
+array
+36
+
+Slide 36:
+Strings
+A string in C is an array of characters
+How are these characters stored?
+All strings delimited by (") characters are said to
+be null-terminated (terminated
+a zero
+byte)
+strcpy() , strcmp(), etc will search for the null: E.g::
+char
+string [ 8 ]
+=
+"AbCdEfG" ;
+A'
+'b'
+"C'
+"d'
+'E'
+"f'
+'G'
+'10
+string
+37
+by
+
+Slide 37:
+Two dimensional arrays
+How does
+a 2-D array
+stored in memory?
+char
+array2d [2] [3]
+= { { 1,
+2 ,
+3 } .
+{4 ,
+5 ,
+6 } };
+1
+2
+3
+4
+5
+array2d
+38
+get
+
+Slide 38:
+Structures
+Structure members are
+placed in memory just like
+arrays__they are guaranteed to be packed next to each
+other:
+struct
+my_stuff
+{
+int
+float
+char
+c[8] ;
+my
+var
+=
+{0 ,
+0 ,
+"Ffej"
+} ;
+70
+102
+101
+106
+3?
+32
+2?
+my_stuff
+39
+1;
+f;
+
+Slide 39:
+How do you know the size
+of variables and types?
+A variable of a certain size may have
+a
+different allocated size
+on different
+machines with different compilers.
+long X would be four bytes on x86
+or
+Sparc but would be eight bytes long on
+Alpha, Sparc64, or x86_
+64.
+We don't want our software to misbehave
+when
+compiled on a different system.
+Fortunately, we don't have to remember
+what the size is_
+40
+E.g:
+
+Slide 40:
+sizeof()
+The sizeof() operator can tell us the
+size (number of bytes) of any:
+Variable definition
+Type declaration
+int
+array[ 100] ;
+printf("Size
+char
+=
+%d|n"
+sizeof (char) ) ;
+printf("Size
+of Array
+=
+%d|n"
+sizeof(array) ) ;
+41
+0f
+
+Slide 41:
+Correct strncpy()
+0 :-)
+int
+main ( )
+{
+II
+char
+another
+str[16]
+123456789012345"
+char
+my_str[40]
+=
+"1234567890123456789"
+"123456789012345678" ;
+strncpy(another_str,
+my
+str,
+sizeof (another
+str) ) ;
+another_str[sizeof (another
+str)
+1]
+=
+10 ' ;
+printf("%s In"
+another_string) ;
+return
+0 ;
+42
+
+Slide 42:
+Takehome Quiz 4
+#include
+<stdio.hz
+int main( )
+char
+buf [ 11]
+=
+Purdue" ;
+int
+my
+int
+=
+xabadfood ;
+char
+my
+char
+=
+X
+short
+my
+short
+=
+Oxbeef;
+printf("%5
+%d
+%C %hdIn"
+buf
+my_int ,
+my_char ,
+my_short) ;
+return
+0 ;
+1
+Draw the memory map as described previously
+Remember to use setarch -R .Iyour
+exe when running!
+And run
+on data.c
+cs purdue edul
+2
+Are there any gaps between the space allocated for the
+variables?
+If s0,
+might that be?
+43
+why
+
+Slide 43:
+For next lecture.
+Readl
+In KSR:
+Read Sections: 4.4, 6.8-6.9, A8.3-A8.4
+and skim Chapter 2 (read 2.3)
+In Beej's:
+Read Chapter 6, ignore 6.2
+Read Chapter 14
+Read sections 12.2-12.4
+44
+
+Slide 44:
+Boiler Upl
+45
+
